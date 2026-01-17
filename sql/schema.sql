@@ -133,15 +133,17 @@ INSERT INTO tenants (name, slug, status, plan) VALUES
   ('Beta Services AG', 'beta-services', 'trial', 'starter');
 
 INSERT INTO roles (name, description) VALUES
-  ('admin', 'Mandantenadministration und Nutzerverwaltung'),
+  ('admin', 'Plattformadministration'),
+  ('mandant-admin', 'Mandantenadministration und Nutzerverwaltung'),
   ('kunde', 'Mandant und Endkunde'),
   ('dienstleister', 'Serviceanbieter innerhalb des Mandanten');
 
 INSERT INTO users (tenant_id, role_id, email, password_hash, display_name, status) VALUES
-  (1, 1, 'admin@alpha-consulting.de', '$2y$10$demoDemoDemoDemoDemoDemoDemoDemoDemoDemoDemo', 'Anna Admin', 'active'),
-  (1, 2, 'kunde@alpha-consulting.de', '$2y$10$demoDemoDemoDemoDemoDemoDemoDemoDemoDemoDemo', 'Klara Kunde', 'active'),
-  (1, 3, 'service@alpha-consulting.de', '$2y$10$demoDemoDemoDemoDemoDemoDemoDemoDemoDemoDemo', 'Dieter Dienstleister', 'active'),
-  (2, 1, 'admin@beta-services.de', '$2y$10$demoDemoDemoDemoDemoDemoDemoDemoDemoDemoDemo', 'Bernd Admin', 'active');
+  (1, 1, 'admin@platform.local', '$2y$12$1/hhC6gDxfMbFqCXgDsY9OwrercXGJN5ayTOR0oNEpSekO4YVqubG', 'Petra Plattform', 'active'),
+  (1, 2, 'admin@alpha-consulting.de', '$2y$12$1/hhC6gDxfMbFqCXgDsY9OwrercXGJN5ayTOR0oNEpSekO4YVqubG', 'Anna Mandant-Admin', 'active'),
+  (1, 3, 'kunde@alpha-consulting.de', '$2y$12$1/hhC6gDxfMbFqCXgDsY9OwrercXGJN5ayTOR0oNEpSekO4YVqubG', 'Klara Kunde', 'active'),
+  (1, 4, 'service@alpha-consulting.de', '$2y$12$1/hhC6gDxfMbFqCXgDsY9OwrercXGJN5ayTOR0oNEpSekO4YVqubG', 'Dieter Dienstleister', 'active'),
+  (2, 2, 'admin@beta-services.de', '$2y$12$1/hhC6gDxfMbFqCXgDsY9OwrercXGJN5ayTOR0oNEpSekO4YVqubG', 'Bernd Mandant-Admin', 'active');
 
 INSERT INTO applications (app_key, name, description) VALUES
   ('addressbook', 'Adressbuch', 'Zentrale Kontaktdaten mit Such- und Filterfunktion.'),

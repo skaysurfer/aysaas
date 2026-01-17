@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+session_start();
+
 require __DIR__ . '/../app/Router.php';
 require __DIR__ . '/../app/Controller/HomeController.php';
 require __DIR__ . '/../app/Controller/AuthController.php';
@@ -48,6 +50,11 @@ $router->get('#^/register$#', function (): void {
 $router->post('#^/login$#', function (): void {
     $controller = new AuthController();
     $controller->login();
+});
+
+$router->get('#^/logout$#', function (): void {
+    $controller = new AuthController();
+    $controller->logout();
 });
 
 $router->post('#^/register$#', function (): void {

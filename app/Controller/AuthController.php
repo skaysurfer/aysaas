@@ -2,18 +2,40 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../Model/UserModel.php';
+
 class AuthController
 {
+    private UserModel $userModel;
+
+    public function __construct(?UserModel $userModel = null)
+    {
+        $this->userModel = $userModel ?? new UserModel();
+    }
+
     public function login(): void
     {
         $email = trim((string)($_POST['email'] ?? ''));
-        $message = $email !== ''
-            ? sprintf('Willkommen zurück, %s. (Demo-Login)', htmlspecialchars($email, ENT_QUOTES, 'UTF-8'))
-            : 'Bitte geben Sie eine gültige E-Mail an.';
+        $password = (string)($_POST['password'] ?? '');
 
-        $this->render('login-result', [
-            'message' => $message,
-        ]);
+        $user = $email !== '' ? $this->userModel->findByEmail($email) : null;
+
+        if ($user === null || !password_verify($password, (string) $user['password_hash'])) {
+            $this->render('login-result', [
+                'message' => 'Login fehlgeschlagen. Bitte prüfen Sie Ihre Zugangsdaten.',
+            ]);
+            return;
+        }
+
+        $_SESSION['user'] = [
+            'id' => (int) $user['id'],
+            'tenant_id' => (int) $user['tenant_id'],
+            'display_name' => (string) $user['display_name'],
+            'role' => (string) $user['role_name'],
+        ];
+
+        header('Location: /dashboard');
+        exit;
     }
 
     public function register(): void
@@ -30,6 +52,13 @@ class AuthController
         $this->render('register-result', [
             'message' => $message,
         ]);
+    }
+
+    public function logout(): void
+    {
+        unset($_SESSION['user']);
+        header('Location: /');
+        exit;
     }
 
     private function render(string $view, array $data = []): void
